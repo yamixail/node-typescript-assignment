@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 
 import { IShowsResponse, Show } from '../types';
 import { CastPerson } from '../types/index';
+import config from '../config';
 
 const apiUri = 'http://api.tvmaze.com';
 const retrieveJson = (response: Response) => {
@@ -13,7 +14,6 @@ const retrieveJson = (response: Response) => {
 };
 
 class Data {
-	public itemsPerPage: number = 3;
 	public shows: Show[] = [];
 	public persons: Map<number, CastPerson[]> = new Map;
 	private promise: Promise<any>;
@@ -30,14 +30,14 @@ class Data {
 	public async getShows(currentPage: number = 0): Promise<IShowsResponse> {
 		return this.promise
 			.then(() => {
-				const pages = Math.ceil(this.shows.length / this.itemsPerPage);
+				const pages = Math.ceil(this.shows.length / config.itemsPerPage);
 
 				if (currentPage > pages || currentPage < 0) {
 					currentPage = 0;
 				}
 
-				const start = currentPage * this.itemsPerPage;
-				const end = start + this.itemsPerPage;
+				const start = currentPage * config.itemsPerPage;
+				const end = start + config.itemsPerPage;
 				const shows = this.shows.slice(start, end);
 
 				return {
@@ -46,23 +46,22 @@ class Data {
 					shows,
 				};
 			})
-			.then(async (response: IShowsResponse) => {
+			.then((response: IShowsResponse) => {
 				const { shows } = response;
+				const promisesArr = [];
+				const alwaysResponse = () => response;
 
 				for (const key in shows) {
-					try {
-						const id = shows[key].id;
-						const cast = await this.getShowCast(id);
-
-						if (cast) {
-							shows[key].cast = cast;
-						}
-					} catch(e) {
-						console.log(e);
-					}
+					const id = shows[key].id;
+					const fetchItemPromise = this.getShowCast(id)
+						.then((cast) => shows[key].cast = cast)
+						.catch(console.log);
+					
+					promisesArr.push(fetchItemPromise);
 				}
 
-				return response;
+				return Promise.all(promisesArr)
+					.then(alwaysResponse, alwaysResponse);
 			});
 	}
 
