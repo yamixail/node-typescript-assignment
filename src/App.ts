@@ -1,9 +1,9 @@
 import * as express from 'express';
 
-import routes from './routes';
+import showsRouter from './routes/showsRouter';
 
 const app = express();
 
-app.use('/', routes);
+app.use('/shows', showsRouter);
 
 export default app;

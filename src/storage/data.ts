@@ -3,8 +3,8 @@ import fetch from 'node-fetch';
 import { IShowsResponse, Show } from '../types';
 import { CastPerson } from '../types/index';
 import config from '../config';
+import logger from '../utils/logger';
 
-const apiUri = 'http://api.tvmaze.com';
 const retrieveJson = (response: Response) => {
 	if (response.ok) {
 		return response.json();
@@ -19,12 +19,12 @@ class Data {
 	private promise: Promise<any>;
 
 	constructor () {
-		this.promise = fetch(apiUri + '/shows')
+		this.promise = fetch(config.apiUri + '/shows')
 			.then(retrieveJson)
 			.then((shows) => {
 				this.shows = shows.map((show: Object) => new Show(show));
 			})
-			.catch(err => console.log(err));
+			.catch(logger.log);
 	}
 
 	public async getShows(currentPage: number = 0): Promise<IShowsResponse> {
@@ -55,8 +55,8 @@ class Data {
 					const id = shows[key].id;
 					const fetchItemPromise = this.getShowCast(id)
 						.then((cast) => shows[key].cast = cast)
-						.catch(console.log);
-					
+						.catch(logger.log);
+
 					promisesArr.push(fetchItemPromise);
 				}
 
@@ -70,7 +70,7 @@ class Data {
 			return Promise.resolve(this.persons.get(showId));
 		}
 
-		return fetch(`${apiUri}/shows/${showId}/cast`)
+		return fetch(`${config.apiUri}/shows/${showId}/cast`)
 			.then(retrieveJson)
 			.then((castList) => {
 				const castPersons = castList
@@ -79,9 +79,9 @@ class Data {
 					)
 					.sort((a, b) => {
 						if (a.birthday === null){
-						  return 1;
+							return 1;
 						} else if(b.birthday === null){
-						  return -1;
+							return -1;
 						}
 
 						return new Date(b.birthday).getTime()
@@ -92,7 +92,7 @@ class Data {
 
 				return castPersons;
 			})
-			.catch(console.error);
+			.catch(logger.error);
 	}
 }
 

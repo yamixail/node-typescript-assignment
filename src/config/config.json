@@ -1,0 +1,12 @@
+{
+	"itemsPerPage": 3,
+	"apiUri": "http://api.tvmaze.com",
+	"port": 3000,
+	"mongo": {
+		"host": "localhost",
+		"port": 27017
+	},
+	"scrubber": {
+		"port": 3001
+	}
+}
