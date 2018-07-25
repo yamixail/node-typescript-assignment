@@ -11,12 +11,12 @@ class Logger {
 		return namespace ? new Logger(namespace) : new Logger();
 	}
 
-	log (message) {
+	log = (message) => {
 		console.log(`[${this.namespace}]: ${message}`);
 	}
 
-	error (error) {
-		console.error(`[${this.namespace}]:`, error);
+	error = (error: Error) => {
+		console.error(`[${this.namespace}]:`, error.stack);
 	}
 }
 

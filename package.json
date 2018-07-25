@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node ./src",
-    "debugger": "node --inspect=5858 -r ts-node/register ./src",
+    "debugger": "node --inspect=5858 -r ts-node/register ./src/services/scraper",
     "dev": "node ./node_modules/nodemon/bin/nodemon.js"
   },
   "repository": {

@@ -1,17 +1,11 @@
 import fetch from 'node-fetch';
 
 import { IShowsResponse, Show } from '../types';
-import { CastPerson } from '../types/index';
+import { CastPerson } from '../types';
 import config from '../config';
 import logger from '../utils/logger';
 
-const retrieveJson = (response: Response) => {
-	if (response.ok) {
-		return response.json();
-	}
 
-	return Promise.reject('Response isn\'t ok!');
-};
 
 class Data {
 	public shows: Show[] = [];
@@ -65,35 +59,6 @@ class Data {
 			});
 	}
 
-	public getShowCast(showId: number): Promise<CastPerson[]> {
-		if (this.persons.has(showId)) {
-			return Promise.resolve(this.persons.get(showId));
-		}
-
-		return fetch(`${config.apiUri}/shows/${showId}/cast`)
-			.then(retrieveJson)
-			.then((castList) => {
-				const castPersons = castList
-					.map(
-						({ person }) => new CastPerson(person)
-					)
-					.sort((a, b) => {
-						if (a.birthday === null){
-							return 1;
-						} else if(b.birthday === null){
-							return -1;
-						}
-
-						return new Date(b.birthday).getTime()
-							- new Date(a.birthday).getTime();
-					});
-
-				this.persons.set(showId, castPersons);
-
-				return castPersons;
-			})
-			.catch(logger.error);
-	}
 }
 
 export default new Data();

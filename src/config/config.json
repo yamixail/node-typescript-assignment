@@ -6,7 +6,11 @@
 		"host": "localhost",
 		"port": 27017
 	},
-	"scrubber": {
-		"port": 3001
+	"scraper": {
+		"port": 3001,
+		"limit": {
+			"queries": 20,
+			"timeLimit": 20000
+		}
 	}
 }
