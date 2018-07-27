@@ -1,21 +1,23 @@
 class Logger {
 	private namespace: string = 'MAIN';
 
-	constructor (namespace?: string) {
+	constructor(namespace?: string) {
 		if (namespace) {
 			this.namespace = namespace;
 		}
 	}
 
-	getLogger (namespace?: string) {
+	public getLogger(namespace?: string) {
 		return namespace ? new Logger(namespace) : new Logger();
 	}
 
-	log = (message) => {
+	public log = (message) => {
+		// tslint:disable-next-line
 		console.log(`[${this.namespace}]: ${message}`);
 	}
 
-	error = (error: Error) => {
+	public error = (error: Error) => {
+		// tslint:disable-next-line
 		console.error(`[${this.namespace}]:`, error.stack);
 	}
 }

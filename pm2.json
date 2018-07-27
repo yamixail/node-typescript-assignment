@@ -1,0 +1,24 @@
+{
+	"apps": [
+	  {
+		"name": "app",
+		"script": "./node_modules/ts-node/dist/bin.js",
+		"args": "./src",
+		"output": "./logs/app.log",
+		"error": "./logs/app.error.log",
+		"env": {
+		  "NODE_ENV": "development"
+		}
+	  },
+	  {
+		"name": "scraper",
+		"script": "./node_modules/ts-node/dist/bin.js",
+		"args": "./src/services/scraper",
+		"output": "./logs/scraper.log",
+		"error": "./logs/scraper.error.log",
+		"env": {
+		  "NODE_ENV": "development"
+		}
+	  }
+	]
+  }

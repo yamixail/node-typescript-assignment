@@ -6,8 +6,7 @@
 		"host": "localhost",
 		"port": 27017
 	},
-	"scraper": {
-		"port": 3001,
+	"scraperConfig": {
 		"limit": {
 			"queries": 20,
 			"timeLimit": 20000

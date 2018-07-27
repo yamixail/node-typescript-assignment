@@ -1,4 +1,5 @@
-import * as nconf from 'nconf';
+import nconf = require('nconf');
+// tslint:disable-next-line
 
 const configDefault = require('./config.json');
 

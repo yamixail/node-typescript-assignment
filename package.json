@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ./src",
-    "debugger": "node --inspect=5858 -r ts-node/register ./src/services/scraper",
+    "start": "./node_modules/.bin/pm2 startOrRestart pm2.json",
+    "stop": "./node_modules/.bin/pm2 delete pm2.json",
+    "start:app": "ts-node ./src",
+    "start:scraper": "ts-node ./src/services/scraper",
+    "debugger:app": "node --inspect=5858 -r ts-node/register ./src",
+    "debugger:scraper": "node --inspect=5858 -r ts-node/register ./src/services/scraper",
     "dev": "node ./node_modules/nodemon/bin/nodemon.js"
   },
   "repository": {
@@ -24,14 +28,17 @@
     "@types/mongoose": "^5.2.2",
     "@types/nconf": "0.0.37",
     "@types/node": "^10.5.2",
+    "@types/node-fetch": "^2.1.2",
     "express": "^4.16.3",
     "mongoose": "^5.2.5",
     "nconf": "^0.10.0",
     "node-fetch": "^2.1.2",
+    "pm2": "^3.0.2",
+    "ts-node": "^7.0.0",
     "typescript": "^2.9.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.3",
-    "ts-node": "^7.0.0"
+    "tslint": "^5.11.0"
   }
 }

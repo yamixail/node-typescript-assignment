@@ -9,4 +9,4 @@ app.listen(config.port, (err) => {
 	}
 
 	logger.log(`server is listening on ${config.port}!`);
-})
+});
