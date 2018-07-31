@@ -1,8 +1,4 @@
-import fetch, { Response } from 'node-fetch';
-
 import config from '../config';
-import { Show } from '../types/implementations';
-import { retrieveJson } from '../utils';
 import logger from '../utils/logger';
 
 import ShowModel from '../models/show';
@@ -10,7 +6,7 @@ import ShowModel from '../models/show';
 const showsPage = (req, res) => {
 	const currentPage = parseInt(req.params.pageId, 10);
 
-	if (!Number.isInteger(currentPage) || currentPage < 0) {
+	if (!Number.isInteger(currentPage) || currentPage < 1) {
 		return res.status(400).json({ message: 'invalid page number' });
 	}
 
@@ -25,16 +21,18 @@ const showsPage = (req, res) => {
 				return res.status(404).json({ message: 'page not found' });
 			}
 
+			const skipPages = currentPage - 1;
+
 			showsQuery
-				.skip(Math.max(0, currentPage * config.itemsPerPage - 1))
+				.skip(Math.max(0, skipPages * config.itemsPerPage - 1))
 				.limit(config.itemsPerPage)
-				.populate('cast')
+				.select('-_id -__v -cast._id')
 				.exec('find')
 				.then((shows) => {
 					const jsonResponse = {
 						currentPage,
 						pages,
-						shows: shows.map((show) => new Show(show)),
+						shows,
 					};
 
 					res.json(jsonResponse);

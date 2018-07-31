@@ -1,6 +1,6 @@
 import nconf = require('nconf');
-// tslint:disable-next-line
 
+// tslint:disable-next-line
 const configDefault = require('./config.json');
 
 nconf.use('memory');

@@ -1,5 +1,6 @@
 {
 	"itemsPerPage": 3,
+	"fetchAttempts": 3,
 	"apiUri": "http://api.tvmaze.com",
 	"port": 3000,
 	"mongo": {
