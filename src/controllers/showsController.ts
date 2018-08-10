@@ -1,7 +1,9 @@
 import config from '../config';
-import logger from '../utils/logger';
+import Logger from '../utils/logger';
 
 import ShowModel from '../models/show';
+
+const logger = new Logger();
 
 const showsPage = (req, res) => {
 	const currentPage = parseInt(req.params.pageId, 10);

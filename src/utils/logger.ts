@@ -1,14 +1,10 @@
-class Logger {
+export default class Logger {
 	private namespace: string = 'MAIN';
 
 	constructor(namespace?: string) {
 		if (namespace) {
 			this.namespace = namespace;
 		}
-	}
-
-	public getLogger(namespace?: string) {
-		return namespace ? new Logger(namespace) : new Logger();
 	}
 
 	public log = (message) => {
@@ -21,5 +17,3 @@ class Logger {
 		console.error(`[${this.namespace}]:`, error.stack);
 	}
 }
-
-export default new Logger();

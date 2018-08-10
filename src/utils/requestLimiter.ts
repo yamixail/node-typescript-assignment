@@ -1,3 +1,5 @@
+import { Response } from 'node-fetch';
+
 export default class RequestLimiter {
 	public queriesLimit: number;
 	public timeLimit: number;
@@ -8,7 +10,7 @@ export default class RequestLimiter {
 		this.timeLimit = options.timeLimit;
 	}
 
-	public request(callback: () => Promise<any>): Promise<any> {
+	public request(callback: () => Promise<Response>): Promise<Response> {
 		const delay = this.getNextQueryDelay();
 
 		return new Promise((resolve, reject) => {

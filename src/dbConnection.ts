@@ -4,6 +4,6 @@ import config from './config';
 
 export default mongoose
 	.connect(
-		`mongodb://${config.mongo.host}:${config.mongo.port}/test-assignment`,
+		config.MONGO_CONNECTION_STRING,
 		{ useNewUrlParser: true },
 	);
